@@ -1,0 +1,1 @@
+export { CompaniesFeature } from './Companies.feature'

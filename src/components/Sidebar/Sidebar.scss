@@ -1,0 +1,24 @@
+.Sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    font-size: 0.9em;
+    margin-top: 40px;
+}
+
+.SidebarItem {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    height: 50px;
+    text-indent: 30px;
+    color: white;
+}
+
+.SidebarItem:hover {
+    color: #111;
+    cursor: pointer;
+    background: #484a4d;
+}
