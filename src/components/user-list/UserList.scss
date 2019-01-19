@@ -1,0 +1,70 @@
+.MainTitle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: 'center';
+    color: #111;
+    margin-bottom: 15px;
+    font-size: 1em;
+    text-indent: 8px;
+}
+
+.MainTitle * {
+    text-align: left;
+    font-size: 1.7em;
+}
+
+.UserList {
+    margin: 40px 40px 10px 40px;
+}
+
+.UserListTable {
+    background: yellow;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border: 1px solid #a1a1a1;
+}
+
+
+.UserListTableHeader {
+    display: flex;
+    flex: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #a1a1a1;
+}
+
+.UserListTableRow {
+    display: flex;
+    flex: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.UserListSelectColumn{
+    width: 5%;
+}
+
+
+.UserListIdColumn{
+    border-left: 1px solid #a1a1a1;
+    flex: 10%;
+}
+
+.UserListNameColumn{
+    border-left: 1px solid #a1a1a1;
+    flex: 30%;
+}
+
+.UserListSurnameColumn{
+    border-left: 1px solid #a1a1a1;
+    flex: 65%;
+}
+
+.UserListEditColumn{
+   width: 5%;
+}
+
