@@ -3,14 +3,20 @@ import { SidebarComponent } from '../../components/Sidebar/Sidebar'
 import './App.scss';
 import { SideBarItems } from '../../models/SideBarItems';
 import { SideBarItem } from '../../components/Sidebar/SideBarItem';
+import { AppContainer } from "./AppContainer";
+import { AppNavigator } from "./AppNavigator";
 
 interface AppState {
   feature: SideBarItem
 }
 
-interface AppProps {}
+interface AppProps {
+ 
+}
 
 export class App extends Component<AppProps, AppState> {
+
+  navigator: AppNavigator
 
   /**
    *Creates an instance of App.
@@ -20,8 +26,9 @@ export class App extends Component<AppProps, AppState> {
    */
   constructor(props: AppProps , state: AppState) {
     super(props, state)
+    this.navigator = new AppNavigator()
     this.state = {
-      feature:  SideBarItems.filter(i => i.active )[0]
+      feature:  SideBarItems(this.navigator).filter(i => i.active )[0]
     }
   }
 
@@ -32,9 +39,13 @@ export class App extends Component<AppProps, AppState> {
    * @memberof App
    */
   onSideBarItemTap(item: SideBarItem) {
-    this.setState({
-      feature: item
-    })
+
+    this.navigator.navigate(item.route, {})
+
+    // console.log('side bar tapped')
+    // this.setState({
+    //   feature: item
+    // })
   }
 
   render() {
@@ -48,12 +59,12 @@ export class App extends Component<AppProps, AppState> {
         </nav>
         <div className="main-container">
         <div className="left-column bg-dark">
-          <SidebarComponent items={SideBarItems.filter(i => i.hidden === false)} onTap={this.onSideBarItemTap.bind(this)}>
+          <SidebarComponent items={SideBarItems(this.navigator).filter(i => i.hidden === false)} onTap={this.onSideBarItemTap.bind(this)}>
           </SidebarComponent>
          
         </div>
         <div className="main-body">
-          { this.state.feature.component }
+          <AppContainer navigator={this.navigator} />
         </div>
         </div>
       </div>
