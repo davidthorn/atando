@@ -9,7 +9,13 @@ export class AppContainer extends React.Component<AppContainerProps, AppContaine
         super(props, state);
         this.state = {
             route: '/users',
-            args: {}
+            args: {
+                user: {
+                    name: 'david',
+                    surname: 'thorn',
+                    email: 'david.thorn@atino.de'
+                }
+            }
         };
     }
 
@@ -33,7 +39,9 @@ export class AppContainer extends React.Component<AppContainerProps, AppContaine
                 com = <UsersFeature navigation={this.props.navigator} />;
                 break;
             case '/user':
-                com = <UserFeature />;
+                console.log(this.state)
+                if(this.state.args.user === undefined) throw new Error('incorrect params provided for user feature')
+                com = <UserFeature navigation={this.props.navigator} user={this.state.args.user} />;
                 break;
             case '/companies':
                 com = <CompaniesFeature />;

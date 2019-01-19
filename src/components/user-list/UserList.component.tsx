@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import './UserList.scss'
 import { User } from "../../models/User.model";
+import MainTitle from "../MainTitle/MainTitle.component";
 
 interface UserListProps {
     users: User[]
@@ -24,7 +25,7 @@ export class UserListComponent extends Component<UserListProps, UserListState> {
         this.state = {
             users: this.props.users
         }
-    }
+    }  
 
     render() {
 
@@ -36,16 +37,14 @@ export class UserListComponent extends Component<UserListProps, UserListState> {
                 <td>{ user.name }</td>
                 <td>{ user.surname }</td>
                 <td><a href={"mailto:" + user.email + "?subject=ATANDO Orders&body=What do you want to order today?"}>{ user.email }</a></td>
-                <td onClick={ () => this.props.shouldEdit(user) }>edit</td>
+                <td className="UserListEditColumn" onClick={ () => this.props.shouldEdit(user) }>edit</td>
             </tr>
         )
 
         return (
             <div className="UserList">
 
-                <div className="MainTitle">
-                    <h1>Atino Users</h1>
-                </div>
+                <MainTitle title="Atino Users"></MainTitle>
 
                 <table className="table table-hover table-bordered table-striped">
                     <thead>

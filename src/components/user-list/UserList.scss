@@ -64,7 +64,11 @@
     flex: 65%;
 }
 
-.UserListEditColumn{
+.UserListEditColumn {
    width: 5%;
+}
+
+.UserListEditColumn:hover {
+    cursor: pointer;
 }
 

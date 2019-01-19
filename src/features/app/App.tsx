@@ -39,13 +39,7 @@ export class App extends Component<AppProps, AppState> {
    * @memberof App
    */
   onSideBarItemTap(item: SideBarItem) {
-
     this.navigator.navigate(item.route, {})
-
-    // console.log('side bar tapped')
-    // this.setState({
-    //   feature: item
-    // })
   }
 
   render() {

@@ -1,0 +1,13 @@
+.ErrorBanner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: 'center';
+    color: rgb(151, 49, 49);
+    margin-bottom: 15px;
+    text-indent: 0px;
+}
+
+.ErrorBanner h1{
+   font-size: 1.4em !important;
+}

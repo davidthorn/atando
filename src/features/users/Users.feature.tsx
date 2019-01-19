@@ -3,6 +3,7 @@ import './Users.scss'
 import { UserListComponent } from "../../components";
 import { User } from "../../models/User.model";
 import { Router } from "../app/Router";
+import  { users } from './users'
 
 interface UsersFeatureProps {
     //shouldOpenUserFeature(user: User): void
@@ -15,20 +16,7 @@ interface UsersFeatureState {
 
 export class UsersFeature extends Component<UsersFeatureProps, UsersFeatureState> {
 
-    users: User[] = [
-        {
-            id: "asdasd",
-            name: 'David',
-            email: 'david.thorn@atino.de',
-            surname: 'Thorn'
-        },
-        {
-            id: "asdasd",
-            name: 'Sven',
-            email: 'sven.nocker@atino.de',
-            surname: 'Nocker'
-        }
-    ]
+    users: User[] = users
 
     constructor(props: UsersFeatureProps, state: UsersFeatureState) {
         super(props, state)
@@ -37,8 +25,9 @@ export class UsersFeature extends Component<UsersFeatureProps, UsersFeatureState
     }
 
     shoudlEditUser(user: User) {
-        this.props.navigation.navigate('/user' , user)
-        //this.props.shouldOpenUserFeature(user)
+        this.props.navigation.navigate('/user' , {
+            user: user
+        })
     }
 
     render() {

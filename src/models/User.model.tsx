@@ -1,3 +1,5 @@
+import { create } from "domain";
+
 export interface User {
     id: string
     name: string
@@ -8,4 +10,7 @@ export interface User {
         vegetarian?: boolean
     }
 
+    save(): Promise<boolean>
+    delete(): Promise<boolean>
+    create(): Promise<User>
 }
