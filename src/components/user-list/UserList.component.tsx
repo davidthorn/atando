@@ -2,9 +2,9 @@ import React, { Component } from "react"
 import './UserList.scss'
 import { User } from "../../models/User.model";
 
-
 interface UserListProps {
     users: User[]
+    shouldEdit(user: User): void
 }
 
 interface UserListState {
@@ -13,21 +13,31 @@ interface UserListState {
 
 export class UserListComponent extends Component<UserListProps, UserListState> {
 
+    /**
+     *Creates an instance of UserListComponent.
+     * @param {UserListProps} props
+     * @param {UserListState} state
+     * @memberof UserListComponent
+     */
     constructor(props: UserListProps, state: UserListState) {
         super(props, state)
         this.state = {
-            users: props.users
+            users: this.props.users
         }
-    }
-
-    componentDidMount() {
-
     }
 
     render() {
 
         const userItems = this.state.users.map((user, index) =>
-            <div key={index} className="">{user.surname}</div>
+            <tr key={ index }>
+                <th scope="row">
+                    <input id={ user.id } type="checkbox"></input>
+                </th>
+                <td>{ user.name }</td>
+                <td>{ user.surname }</td>
+                <td><a href={"mailto:" + user.email + "?subject=ATANDO Orders&body=What do you want to order today?"}>{ user.email }</a></td>
+                <td onClick={ () => this.props.shouldEdit(user) }>edit</td>
+            </tr>
         )
 
         return (
@@ -46,40 +56,13 @@ export class UserListComponent extends Component<UserListProps, UserListState> {
                             <th scope="col-md-2">Name</th>
                             <th scope="col">Surname</th>
                             <th scope="col">Email</th>
-                            <th className="UserListEditColumn"  scope="col">Edit</th>
+                            <th className="UserListEditColumn" scope="col">Edit</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">
-                                <input type="checkbox"></input>
-                            </th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td>edit</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">
-                                <input type="checkbox"></input>
-                            </th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                            <td>edit</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">
-                                <input type="checkbox"></input>
-                            </th>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td>
-                            <td>edit</td>
-                        </tr>
+                        { userItems }
                     </tbody>
                 </table>
-
             </div>
         )
     }

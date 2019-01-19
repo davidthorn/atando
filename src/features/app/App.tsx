@@ -8,12 +8,16 @@ interface AppState {
   feature: SideBarItem
 }
 
-interface AppProps {
-
-}
+interface AppProps {}
 
 export class App extends Component<AppProps, AppState> {
 
+  /**
+   *Creates an instance of App.
+   * @param {AppProps} props
+   * @param {AppState} state
+   * @memberof App
+   */
   constructor(props: AppProps , state: AppState) {
     super(props, state)
     this.state = {
@@ -21,11 +25,16 @@ export class App extends Component<AppProps, AppState> {
     }
   }
 
+  /**
+   * The user has tapped this side bar item
+   *
+   * @param {SideBarItem} item
+   * @memberof App
+   */
   onSideBarItemTap(item: SideBarItem) {
     this.setState({
       feature: item
     })
-  
   }
 
   render() {
@@ -39,8 +48,7 @@ export class App extends Component<AppProps, AppState> {
         </nav>
         <div className="main-container">
         <div className="left-column bg-dark">
-          <SidebarComponent items={SideBarItems} onTap={this.onSideBarItemTap.bind(this)}>
-
+          <SidebarComponent items={SideBarItems.filter(i => i.hidden === false)} onTap={this.onSideBarItemTap.bind(this)}>
           </SidebarComponent>
          
         </div>

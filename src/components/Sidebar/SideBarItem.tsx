@@ -4,4 +4,5 @@ export interface SideBarItem {
     active: boolean;
     route: string;
     component: any
+    hidden: boolean
 }
