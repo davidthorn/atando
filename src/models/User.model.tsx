@@ -1,3 +1,5 @@
+import { all } from "q";
+
 
 export interface User {
     id: string
@@ -8,6 +10,7 @@ export interface User {
         vegan?: boolean
         vegetarian?: boolean
     }
+    deleted: boolean
 
     save(): Promise<boolean>
     delete(): Promise<boolean>

@@ -5,6 +5,7 @@ import MainTitle from "../../components/MainTitle/MainTitle.component";
 import { User } from "../../models/User.model";
 import { Router } from "../app/Router";
 import ErrorBanner from "../../components/ErrorBanner/ErrorBanner.component";
+import { UserObject } from "../users/users";
 
 
 interface UserFeatureProps {
@@ -52,7 +53,20 @@ export class UserFeature extends Component<UserFeatureProps, UserFeatureState> {
 
     async formSubmitted(event: any) {
 
-        const save = await this.state.user.save()
+        const save = await UserObject.save(this.state.user)
+        if (save) {
+            this.props.navigation.navigate('/users', {})
+        } else {
+            this.setState({
+                error: 'An error occurred'
+            })
+        }
+
+    }
+
+    async deleteUser(event: any) {
+
+        const save = await UserObject.delete(this.state.user)
         if (save) {
             this.props.navigation.navigate('/users', {})
         } else {
@@ -67,12 +81,8 @@ export class UserFeature extends Component<UserFeatureProps, UserFeatureState> {
 
         let m = this.state.error !== undefined ? this.modal() : undefined
 
-        console.log(m)
-
         return (
             <div className="UserFeature">
-
-               
 
                 <MainTitle title={this.state.user.name + " " + this.state.user.surname}></MainTitle>
 
@@ -111,6 +121,8 @@ export class UserFeature extends Component<UserFeatureProps, UserFeatureState> {
                             placeholder="Enter email" />
                     </div>
                     <button onClick={this.formSubmitted.bind(this)} type="button" className="btn btn-primary">Save</button>
+                    <button onClick={this.deleteUser.bind(this)} type="button" className="btn btn-danger">Delete</button>
+               
                 </form>
             </div>
 

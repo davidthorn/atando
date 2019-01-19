@@ -1,45 +1,115 @@
 import { User } from "../../models/User.model";
+import axios from 'axios'
 
-class UserObject implements User {
 
-    id: string
-    name: string
-    email: string
-    surname: string
+export class UserObject {
 
-    constructor(data: { name: string , surname: string , email: string }) {
-        this.id = ''
-        this.name = data.name
-        this.surname = data.surname
-        this.email = data.email
+    static async save(user: User): Promise<boolean> {
+        
+        const result = await axios({
+            baseURL: 'http://localhost:3000',
+            url: '/user',
+            method: 'POST',
+            data: {
+                name: user.name,
+                surname: user.surname,
+                email: user.email,
+             },
+            headers: {
+                'Content-Type' : 'application/json'
+            }
+        })
+        .then(res => {
+            return res.status === 200
+        })
+        .catch((err) => {
+            return false
+        })
+
+        return Promise.resolve(result)
     }
 
-    save(): Promise<boolean> {
-        return Promise.resolve(true)
+    static async delete(user: User): Promise<boolean> {
+        const result = await axios({
+            baseURL: 'http://localhost:3000',
+            url: '/user',
+            method: 'DELETE',
+            data: {
+                id: user.id
+            },
+            headers: {
+                'Content-Type' : 'application/json'
+            }
+        })
+        .then(res => {
+            user.deleted = true
+            return res.status === 200
+        })
+        .catch((err) => {
+            return false
+        })
+
+        return Promise.resolve(result)
     }
 
-    delete(): Promise<boolean> {
-        return Promise.resolve(true)
+    static async create(user: User): Promise<User> {
+        const result = await axios({
+            baseURL: 'http://localhost:3000',
+            url: '/user',
+            method: 'POST',
+            data: {
+               name: user.name,
+               surname: user.surname,
+               email: user.email,
+            },
+            headers: {
+                'Content-Type' : 'application/json'
+            }
+        })
+        .then(res => {
+            if(res.status !== 201) throw new Error('Incorrect status code - 201 expected')
+            return res.data 
+        })
+        .catch((err) => {
+            return false
+        })
+
+        return Promise.resolve(result)
     }
 
-    create(): Promise<User> {
-        return Promise.resolve(this)
-    }
+    static async all(): Promise<User[]> {
+        const result = await axios({
+            baseURL: 'http://localhost:3000',
+            url: '/user',
+            method: 'GET',
+            headers: {
+                'Content-Type' : 'application/json'
+            }
+        })
+        .then(res => {
+            if(res.status !== 200) throw new Error('Incorrect status code - 201 expected')
+            return res.data 
+        })
+        .catch((err) => {
+            return []
+        })
 
+        return result
+    }
 
 }
 
-const users: User[] = [
-    new UserObject({
-        name: 'David',
-        surname: 'Thorn',
-        email: 'david.thorn@atino.de'
-    }),
-    new UserObject({
-        name: 'Sven',
-        surname: 'Nocker',
-        email: 'sven.nocker@atino.de'
-    })
-];
+// const users: User[] = [
+//     new UserObject({
+//         name: 'David',
+//         surname: 'Thorn',
+//         email: 'david.thorn@atino.de'
+//     }),
+//     new UserObject({
+//         name: 'Sven',
+//         surname: 'Nocker',
+//         email: 'sven.nocker@atino.de'
+//     })
+// ];
 
-export { users }
+// export { users }

@@ -2,9 +2,9 @@ import React, { Component } from "react"
 import './UserList.scss'
 import { User } from "../../models/User.model";
 import MainTitle from "../MainTitle/MainTitle.component";
+import { UserObject } from "../../features/users/users";
 
 interface UserListProps {
-    users: User[]
     shouldEdit(user: User): void
 }
 
@@ -23,9 +23,16 @@ export class UserListComponent extends Component<UserListProps, UserListState> {
     constructor(props: UserListProps, state: UserListState) {
         super(props, state)
         this.state = {
-            users: this.props.users
+            users: []
         }
     }  
+
+    async componentWillMount() {
+        const users = await UserObject.all()
+        this.setState({
+            users: users
+        })
+    }
 
     render() {
 
