@@ -2,7 +2,7 @@ import React, { ChangeEvent, Component } from "react";
 import InputField from "../../components/InputField/InputField.component";
 import MainTitle from "../../components/MainTitle/MainTitle.component";
 import { User } from "../../models/User.model";
-import { UserService } from '../../services/UserService';
+import { UserService } from '../../services/user/UserService';
 import { Router } from "../app/Router";
 import './User.scss';
 
@@ -70,8 +70,11 @@ export class UserFeature extends Component<UserFeatureProps, UserFeatureState> {
                     surname: this.state.user.surname,
                     email: this.state.user.email
                 })
-
-                if (created.status) {
+                .catch(error => {
+                    return Promise.resolve(error)
+                })
+                
+                if (created.status === 201) {
                     this.props.navigation.navigate('/users', {})
                 } else {
                     this.setState({
@@ -85,7 +88,7 @@ export class UserFeature extends Component<UserFeatureProps, UserFeatureState> {
                     name: this.state.user.name,
                     surname: this.state.user.surname
                 })
-                if (save.status) {
+                if (save.status === 200) {
                     this.props.navigation.navigate('/users', {})
                 } else {
                     this.setState({

@@ -1,5 +1,7 @@
 import React from 'react';
-import { UsersFeature, UserFeature, CompaniesFeature, OrdersFeature } from '../index';
+import { CompanyService } from '../../services/company/CompanyService';
+import { UserService } from '../../services/user/UserService';
+import { CompaniesFeature, CompanyFeature, OrdersFeature, UserFeature, UsersFeature , UserFormFields } from '../index';
 import { AppContainerProps } from "./AppContainerProps";
 import { AppContainerState } from "./AppContainerState";
 
@@ -25,7 +27,7 @@ export class AppContainer extends React.Component<AppContainerProps, AppContaine
             args: args
         });
     }
-    
+
     componentDidMount() {
         this.props.navigator.shouldRender = this.shouldRender.bind(this);
         console.log('comp did mount');
@@ -39,11 +41,57 @@ export class AppContainer extends React.Component<AppContainerProps, AppContaine
                 com = <UsersFeature navigation={this.props.navigator} />;
                 break;
             case '/user':
-                if(this.state.args.user === undefined) throw new Error('incorrect params provided for user feature')
-                com = <UserFeature mode={this.state.args.mode} navigation={this.props.navigator} user={this.state.args.user} />;
+                if (this.state.args.user === undefined) throw new Error('incorrect params provided for user feature')
+                com = <UserFeature
+                    service={new UserService()}
+                    exitPath="/users"
+                    pageTitle={{
+                        create: 'Create User',
+                        edit: 'User',
+                        view: 'User'
+                    }}
+                    fields={UserFormFields(this.state.args.mode !== 'create')}
+                    mode={this.state.args.mode}
+                    navigation={this.props.navigator}
+                    model={this.state.args.user} />;
+                
+                break;
+            case '/company':
+                if (this.state.args.company === undefined) throw new Error('incorrect params provided for company feature')
+                com = <CompanyFeature
+                    service={new CompanyService()}
+                    exitPath="/companies"
+                    pageTitle={{
+                        create: 'Create Company',
+                        edit: 'Company',
+                        view: 'Company'
+                    }}
+                    fields={[
+                        {
+                            type: 'text',
+                            id: 'name',
+                            label: 'Name',
+                            placeholder: 'Company Name'
+                        },
+                        {
+                            type: 'text',
+                            id: 'address',
+                            label: 'Address',
+                            placeholder: 'Company Address'
+                        },
+                        {
+                            type: 'text',
+                            id: 'phone',
+                            label: 'Phone',
+                            placeholder: 'Company Phone'
+                        }
+                    ]}
+                    mode={this.state.args.mode}
+                    navigation={this.props.navigator}
+                    model={this.state.args.company} />;
                 break;
             case '/companies':
-                com = <CompaniesFeature />;
+                com = <CompaniesFeature navigation={this.props.navigator} />;
                 break;
             case '/orders':
                 com = <OrdersFeature />;

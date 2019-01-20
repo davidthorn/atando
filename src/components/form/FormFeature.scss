@@ -1,0 +1,16 @@
+.FormFeature {
+
+    margin: 40px;
+ 
+    .buttonHolder {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: stretch;
+    }
+
+    button {
+        margin: 0 0 0 12px;
+    }
+
+}

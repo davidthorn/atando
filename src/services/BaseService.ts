@@ -1,8 +1,8 @@
-import { User } from './User';
+import { User } from './user/User';
 import axios from 'axios'
 export type ResponeType = { status: number, data?: { [key: string]: any } , errors?: { [key: string]: any } }
 
-export class UserService {
+export class BaseService<T, Create, Update> {
 
     host: string
 
@@ -10,8 +10,8 @@ export class UserService {
 
     path: string
 
-    constructor () {
-        this.path = '/user'
+    constructor (path: string) {
+        this.path = path
         this.host = 'localhost'
         this.port = '3000'
     }
@@ -40,31 +40,29 @@ export class UserService {
             }
         })
         .catch((err) => {
-            
-            return {
+            return Promise.reject({
                 status: err.status,
                 errors: err.response.data
-            }
+            })
         })
 
         return Promise.resolve(result)
     }
 
-    async create(body: { name: string, surname: string, email: string }): Promise<ResponeType> {
+    async create(body: Create): Promise<ResponeType> {
         return this.request('POST', undefined , body) 
     }
 
-    async all(): Promise<User[]> {
-        return this.request('GET').then(data => data.data as User[])
+    async all<T>(): Promise<T[]> {
+        return this.request('GET').then(data => data.data as T[])
     }
 
     async get(id: string): Promise<ResponeType> {
         return this.request('ITEM' , id)
     }
 
-    async update(id: string, data: { name?: string, surname?: string }): Promise<ResponeType> {
+    async update<Update>(id: string, data: Update ): Promise<ResponeType> {
         return this.request('PATCH' , id , data)
-      
     }
 
     async delete(id: string): Promise<ResponeType> {
