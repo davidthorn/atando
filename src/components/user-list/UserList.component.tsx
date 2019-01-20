@@ -1,12 +1,11 @@
-import React, { Component } from "react"
-import './UserList.scss'
-import { User } from "../../models/User.model";
+import React, { Component } from "react";
 import MainTitle from "../MainTitle/MainTitle.component";
-import { UserObject } from "../../features/users/users";
+import './UserList.scss';
+import { User } from "../../services/User";
+import { UserService } from "../../services/UserService";
 
 interface UserListProps {
-    shouldEdit(user: User, mode: 'create' | 'edit'): void
-    
+    shouldEdit(user: User, mode: 'create' | 'edit' | 'view'): void
 }
 
 interface UserListState {
@@ -14,6 +13,8 @@ interface UserListState {
 }
 
 export class UserListComponent extends Component<UserListProps, UserListState> {
+
+    service: UserService
 
     /**
      *Creates an instance of UserListComponent.
@@ -23,13 +24,14 @@ export class UserListComponent extends Component<UserListProps, UserListState> {
      */
     constructor(props: UserListProps, state: UserListState) {
         super(props, state)
+        this.service = new UserService()
         this.state = {
             users: []
         }
-    }  
+    }
 
     async componentWillMount() {
-        const users = await UserObject.all()
+        const users = await this.service.all()
         this.setState({
             users: users
         })
@@ -41,22 +43,20 @@ export class UserListComponent extends Component<UserListProps, UserListState> {
             surname: '',
             email: '',
             id: '',
-            deleted: false
         }, 'create')
     }
-
 
     render() {
 
         const userItems = this.state.users.map((user, index) =>
-            <tr key={ index }>
+            <tr key={index}>
                 <th scope="row">
-                    <input id={ user.id } type="checkbox"></input>
+                    <input id={user.id} type="checkbox"></input>
                 </th>
-                <td>{ user.name }</td>
-                <td>{ user.surname }</td>
-                <td><a href={"mailto:" + user.email + "?subject=ATANDO Orders&body=What do you want to order today?"}>{ user.email }</a></td>
-                <td className="UserListEditColumn" onClick={ () => this.props.shouldEdit(user , 'edit') }>edit</td>
+                <td onClick={() => this.props.shouldEdit(user, 'view')}>{user.name}</td>
+                <td onClick={() => this.props.shouldEdit(user, 'view')}>{user.surname}</td>
+                <td><a href={"mailto:" + user.email + "?subject=ATANDO Orders&body=What do you want to order today?"}>{user.email}</a></td>
+                <td className="UserListEditColumn" onClick={() => this.props.shouldEdit(user, 'edit')}>edit</td>
             </tr>
         )
 
@@ -82,7 +82,7 @@ export class UserListComponent extends Component<UserListProps, UserListState> {
                         </tr>
                     </thead>
                     <tbody>
-                        { userItems }
+                        {userItems}
                     </tbody>
                 </table>
             </div>

@@ -1,6 +1,3 @@
-import { all } from "q";
-
-
 export interface User {
     id: string
     name: string
