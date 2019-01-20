@@ -14,7 +14,7 @@ export class BaseService<T, Create, Update> {
         this.path = path
         this.host = 'localhost'
         this.port = '3000'
-    }
+    }   
 
     async request(type: 'ITEM' | 'GET' | 'POST' | 'PATCH' | 'DELETE', id?: string , data?: any ): Promise<ResponeType> {
         

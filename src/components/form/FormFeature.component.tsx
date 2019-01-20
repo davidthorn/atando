@@ -87,7 +87,6 @@ export class FormFeature<T extends FormFieldIdentifier, Model extends FormFieldI
                     return Promise.resolve(error)
                 }) 
 
-                console.log('created form ' , created)
                 if (created.status === 201) {
                     this.props.navigation.navigate(this.props.exitPath, {})
                 } else {
@@ -118,7 +117,7 @@ export class FormFeature<T extends FormFieldIdentifier, Model extends FormFieldI
 
     }
 
-    async deletemodel(event: any) {
+    async deletemodel() {
 
         const save = await this.service.delete(this.state.model.id)
 
@@ -147,10 +146,6 @@ export class FormFeature<T extends FormFieldIdentifier, Model extends FormFieldI
                 title = `${this.props.pageTitle.view}`
                 break
         }
-
-        console.log('state error' , this.state.errors)
-
-        
 
         let _fields = this.fields.map((i, index) => {
             let isReadyOnly = i.readonly === undefined ? this.props.mode === 'view' : i.readonly!

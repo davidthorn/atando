@@ -1,7 +1,7 @@
 import React from 'react';
 import { CompanyService } from '../../services/company/CompanyService';
 import { UserService } from '../../services/user/UserService';
-import { CompaniesFeature, CompanyFeature, OrdersFeature, UserFeature, UsersFeature , UserFormFields } from '../index';
+import { CompaniesFeature, CompanyFeature, OrdersFeature, UserFeature, UsersFeature , UserFormFields, CompanyFormFields } from '../index';
 import { AppContainerProps } from "./AppContainerProps";
 import { AppContainerState } from "./AppContainerState";
 
@@ -66,26 +66,7 @@ export class AppContainer extends React.Component<AppContainerProps, AppContaine
                         edit: 'Company',
                         view: 'Company'
                     }}
-                    fields={[
-                        {
-                            type: 'text',
-                            id: 'name',
-                            label: 'Name',
-                            placeholder: 'Company Name'
-                        },
-                        {
-                            type: 'text',
-                            id: 'address',
-                            label: 'Address',
-                            placeholder: 'Company Address'
-                        },
-                        {
-                            type: 'text',
-                            id: 'phone',
-                            label: 'Phone',
-                            placeholder: 'Company Phone'
-                        }
-                    ]}
+                    fields={CompanyFormFields}
                     mode={this.state.args.mode}
                     navigation={this.props.navigator}
                     model={this.state.args.company} />;

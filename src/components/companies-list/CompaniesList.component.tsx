@@ -45,6 +45,7 @@ export class CompaniesListComponent extends Component<CompaniesListProps, Compan
             id: '',
             name: '',
             address: '',
+            street: '',
             phone: ''
         }, 'create')
     }
