@@ -1,0 +1,9 @@
+.ErrorMessage {
+    color: rgb(110, 35, 35);
+    font-size: 0.95em;
+    font-weight: 600;
+    text-indent: 10px;
+}
+.ErrorMessage::before {
+    content: ': '
+}
