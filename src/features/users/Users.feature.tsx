@@ -24,9 +24,10 @@ export class UsersFeature extends Component<UsersFeatureProps, UsersFeatureState
         }
     }
 
-    shoudlEditUser(user: User) {
+    shoudlEditUser(user: User, mode: 'create' | 'edit') {
         this.props.navigation.navigate('/user' , {
-            user: user
+            user: user,
+            mode: mode
         })
     }
 

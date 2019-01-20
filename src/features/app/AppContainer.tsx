@@ -39,9 +39,8 @@ export class AppContainer extends React.Component<AppContainerProps, AppContaine
                 com = <UsersFeature navigation={this.props.navigator} />;
                 break;
             case '/user':
-                console.log(this.state)
                 if(this.state.args.user === undefined) throw new Error('incorrect params provided for user feature')
-                com = <UserFeature navigation={this.props.navigator} user={this.state.args.user} />;
+                com = <UserFeature mode={this.state.args.mode} navigation={this.props.navigator} user={this.state.args.user} />;
                 break;
             case '/companies':
                 com = <CompaniesFeature />;

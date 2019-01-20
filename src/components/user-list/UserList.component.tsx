@@ -5,7 +5,8 @@ import MainTitle from "../MainTitle/MainTitle.component";
 import { UserObject } from "../../features/users/users";
 
 interface UserListProps {
-    shouldEdit(user: User): void
+    shouldEdit(user: User, mode: 'create' | 'edit'): void
+    
 }
 
 interface UserListState {
@@ -34,6 +35,17 @@ export class UserListComponent extends Component<UserListProps, UserListState> {
         })
     }
 
+    addUser() {
+        this.props.shouldEdit({
+            name: '',
+            surname: '',
+            email: '',
+            id: '',
+            deleted: false
+        }, 'create')
+    }
+
+
     render() {
 
         const userItems = this.state.users.map((user, index) =>
@@ -44,7 +56,7 @@ export class UserListComponent extends Component<UserListProps, UserListState> {
                 <td>{ user.name }</td>
                 <td>{ user.surname }</td>
                 <td><a href={"mailto:" + user.email + "?subject=ATANDO Orders&body=What do you want to order today?"}>{ user.email }</a></td>
-                <td className="UserListEditColumn" onClick={ () => this.props.shouldEdit(user) }>edit</td>
+                <td className="UserListEditColumn" onClick={ () => this.props.shouldEdit(user , 'edit') }>edit</td>
             </tr>
         )
 
@@ -52,6 +64,10 @@ export class UserListComponent extends Component<UserListProps, UserListState> {
             <div className="UserList">
 
                 <MainTitle title="Atino Users"></MainTitle>
+
+                <div className="toolbar">
+                    <button onClick={this.addUser.bind(this)} className="btn btn-primary">Add</button>
+                </div>
 
                 <table className="table table-hover table-bordered table-striped">
                     <thead>

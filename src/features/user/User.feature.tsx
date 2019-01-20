@@ -1,5 +1,4 @@
 import React, { Component, ChangeEvent } from "react"
-import { Modal } from 'react-bootstrap'
 import './User.scss'
 import MainTitle from "../../components/MainTitle/MainTitle.component";
 import { User } from "../../models/User.model";
@@ -11,6 +10,7 @@ import { UserObject } from "../users/users";
 interface UserFeatureProps {
     user: User
     navigation: Router
+    mode: 'create' | 'edit'
 }
 
 interface UserFeatureState {
@@ -46,6 +46,13 @@ export class UserFeature extends Component<UserFeatureProps, UserFeatureState> {
                     return state
                 })
                 break
+            case 'email':
+            if(this.props.mode === 'edit') throw new Error('this should not be possible')
+            this.setState((state) => {
+                state.user.email = value
+                return state
+            })
+            break
             default: break
         }
 
@@ -53,14 +60,31 @@ export class UserFeature extends Component<UserFeatureProps, UserFeatureState> {
 
     async formSubmitted(event: any) {
 
-        const save = await UserObject.save(this.state.user)
-        if (save) {
-            this.props.navigation.navigate('/users', {})
-        } else {
-            this.setState({
-                error: 'An error occurred'
-            })
+        switch(this.props.mode) {
+            case 'create':
+            const created = await UserObject.create(this.state.user)
+            if (created) {
+                this.props.navigation.navigate('/users', {})
+            } else {
+                this.setState({
+                    error: 'An error occurred'
+                })
+            }
+            break;
+
+            case 'edit':
+            const save = await UserObject.save(this.state.user)
+            if (save) {
+                this.props.navigation.navigate('/users', {})
+            } else {
+                this.setState({
+                    error: 'An error occurred'
+                })
+            }
+            break;
         }
+
+        
 
     }
 
@@ -81,10 +105,12 @@ export class UserFeature extends Component<UserFeatureProps, UserFeatureState> {
 
         let m = this.state.error !== undefined ? this.modal() : undefined
 
+        let title = this.props.mode === 'create' ? 'Create User' : this.state.user.name + " " + this.state.user.surname
+
         return (
             <div className="UserFeature">
 
-                <MainTitle title={this.state.user.name + " " + this.state.user.surname}></MainTitle>
+                <MainTitle title={title}></MainTitle>
 
                 { m }
 
@@ -114,14 +140,16 @@ export class UserFeature extends Component<UserFeatureProps, UserFeatureState> {
 
                     <div className="form-group">
                         <label htmlFor="email">Email address</label>
-                        <input readOnly={true} type="email"
+                        <input readOnly={this.props.mode === 'edit'} 
+                            type="email"
                             defaultValue={this.props.user.email}
+                            onChange={this.fieldValueChanged.bind(this)}
                             className="form-control" id="email"
                             aria-describedby="email"
                             placeholder="Enter email" />
                     </div>
                     <button onClick={this.formSubmitted.bind(this)} type="button" className="btn btn-primary">Save</button>
-                    <button onClick={this.deleteUser.bind(this)} type="button" className="btn btn-danger">Delete</button>
+                    <button hidden={this.props.mode === 'create'}  onClick={this.deleteUser.bind(this)} type="button" className="btn btn-danger">Delete</button>
                
                 </form>
             </div>

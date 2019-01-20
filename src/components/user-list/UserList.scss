@@ -72,3 +72,19 @@
     cursor: pointer;
 }
 
+.toolbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: stretch;
+    height: 40px;
+    margin-bottom:15px;
+}
+
+.toolbar button {
+    padding: 0px 20px 0 20px;
+    margin: 0px;
+    height: 30px;
+    line-height: 27px;
+    font-size: 0.8em;
+}

@@ -12,7 +12,4 @@ export interface User {
     }
     deleted: boolean
 
-    save(): Promise<boolean>
-    delete(): Promise<boolean>
-    create(): Promise<User>
 }

@@ -9,8 +9,9 @@ export class UserObject {
         const result = await axios({
             baseURL: 'http://localhost:3000',
             url: '/user',
-            method: 'POST',
+            method: 'PATCH',
             data: {
+                id: user.id,
                 name: user.name,
                 surname: user.surname,
                 email: user.email,
