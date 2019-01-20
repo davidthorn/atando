@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import MainTitle from "../MainTitle/MainTitle.component";
 import './UserList.scss';
-import { User } from "../../services/User";
-import { UserService } from "../../services/UserService";
+import { User } from "../../services/user/User";
+import { UserService } from "../../services/user/UserService";
 
 interface UserListProps {
     shouldEdit(user: User, mode: 'create' | 'edit' | 'view'): void
@@ -31,7 +31,7 @@ export class UserListComponent extends Component<UserListProps, UserListState> {
     }
 
     async componentWillMount() {
-        const users = await this.service.all()
+        const users = await this.service.all<User>()
         this.setState({
             users: users
         })
@@ -63,7 +63,7 @@ export class UserListComponent extends Component<UserListProps, UserListState> {
         return (
             <div className="UserList">
 
-                <MainTitle title="Atino Users"></MainTitle>
+                <MainTitle title="Atando Users"></MainTitle>
 
                 <div className="toolbar">
                     <button onClick={this.addUser.bind(this)} className="btn btn-primary">Add</button>

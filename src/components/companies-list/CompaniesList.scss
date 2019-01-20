@@ -1,0 +1,90 @@
+.MainTitle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: 'center';
+    color: #111;
+    margin-bottom: 15px;
+    font-size: 1em;
+    text-indent: 8px;
+}
+
+.MainTitle * {
+    text-align: left;
+    font-size: 1.7em;
+}
+
+.CompaniesList {
+    margin: 40px 40px 10px 40px;
+}
+
+.CompaniesListTable {
+    background: yellow;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border: 1px solid #a1a1a1;
+}
+
+
+.CompaniesListTableHeader {
+    display: flex;
+    flex: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #a1a1a1;
+}
+
+.CompaniesListTableRow {
+    display: flex;
+    flex: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.CompaniesListSelectColumn{
+    width: 5%;
+}
+
+
+.CompaniesListIdColumn{
+    border-left: 1px solid #a1a1a1;
+    flex: 10%;
+}
+
+.CompaniesListNameColumn{
+    border-left: 1px solid #a1a1a1;
+    flex: 30%;
+}
+
+.CompaniesListSurnameColumn{
+    border-left: 1px solid #a1a1a1;
+    flex: 65%;
+}
+
+.CompaniesListEditColumn {
+   width: 5%;
+}
+
+.CompaniesListEditColumn:hover {
+    cursor: pointer;
+}
+
+.toolbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: stretch;
+    height: 40px;
+    margin-bottom:15px;
+}
+
+.toolbar button {
+    padding: 0px 20px 0 20px;
+    margin: 0px;
+    height: 30px;
+    line-height: 27px;
+    font-size: 0.8em;
+}

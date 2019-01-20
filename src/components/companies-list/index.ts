@@ -1,0 +1,1 @@
+export { CompaniesListComponent } from './CompaniesList.component'
