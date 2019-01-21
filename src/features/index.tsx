@@ -1,6 +1,7 @@
-export { CompaniesFeature } from './companies'
-export { UsersFeature } from './users'
-export { OrdersFeature } from './orders'
-export { App } from './app'
-export { UserFeature, UserFormFields } from './user'
-export { CompanyFeature, CompanyFormFields } from './company'
+export { App } from './app';
+export { CompaniesFeature } from './companies';
+export { CompanyFeature, CompanyFormFields } from './company';
+export { LoginFormFeature, LoginFormFields } from './login';
+export { OrdersFeature } from './orders';
+export { UserFeature, UserFormFields } from './user';
+export { UsersFeature } from './users';

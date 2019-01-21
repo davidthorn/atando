@@ -38,7 +38,6 @@ export interface FormField {
     readonly?: boolean
 }
 
-
 export class FormFeature<T extends FormFieldIdentifier, Model extends FormFieldIdentifier, Create, Update> extends Component<FormFeatureProps<T, Model, Create, Update>, FormFeatureState<Model>> {
 
     service: BaseService<Model, Create, Update>
@@ -82,13 +81,17 @@ export class FormFeature<T extends FormFieldIdentifier, Model extends FormFieldI
             case 'create':
 
                 const created = await this.service
-                .create(this.onCreate(this.state.model))
-                .catch(error => {
-                    return Promise.resolve(error)
-                }) 
+                    .create(this.onCreate(this.state.model))
+                    .catch(error => {
+                        return Promise.resolve({
+                            data: undefined,
+                            status: error.status,
+                            errors: error.errors
+                        })
+                    })
 
-                if (created.status === 201) {
-                    this.props.navigation.navigate(this.props.exitPath, {})
+                if (created.status >= 200 && created.status < 300) {
+                    this.props.navigation.navigate(this.props.exitPath, created.data!)
                 } else {
                     this.setState({
                         errors: created.errors!.errors
@@ -97,16 +100,20 @@ export class FormFeature<T extends FormFieldIdentifier, Model extends FormFieldI
                 break;
 
             case 'edit':
-                
+
                 let id = this.state.model.id
                 const save = await this.service
-                .update(id, this.onUpdate(this.state.model))
-                .catch(error => {
-                    return Promise.resolve(error)
-                })
+                    .update(id, this.onUpdate(this.state.model))
+                    .catch(error => {
+                        return Promise.resolve({
+                            data: undefined,
+                            status: error.status,
+                            errors: error.errors
+                        })
+                    })
 
-                if (save.status === 200) {
-                    this.props.navigation.navigate(this.props.exitPath, {})
+                if (save.status >= 200 && save.status < 300) {
+                    this.props.navigation.navigate(this.props.exitPath, save.data!)
                 } else {
                     this.setState({
                         errors: save.errors!.errors

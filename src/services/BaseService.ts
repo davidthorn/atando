@@ -1,6 +1,5 @@
-import { User } from './user/User';
-import axios from 'axios'
-export type ResponeType = { status: number, data?: { [key: string]: any } , errors?: { [key: string]: any } }
+import axios from 'axios';
+export type ResponeType = { status: number, data?: { [key: string]: any }, errors?: { [key: string]: any } }
 
 export class BaseService<T, Create, Update> {
 
@@ -10,18 +9,29 @@ export class BaseService<T, Create, Update> {
 
     path: string
 
-    constructor (path: string) {
+    token?: string = localStorage.getItem('idToken') || undefined
+
+    constructor(path: string) {
         this.path = path
         this.host = 'localhost'
         this.port = '3000'
-    }   
+    }
 
-    async request(type: 'ITEM' | 'GET' | 'POST' | 'PATCH' | 'DELETE', id?: string , data?: any ): Promise<ResponeType> {
-        
+    async request(type: 'ITEM' | 'GET' | 'POST' | 'PATCH' | 'DELETE', id?: string, data?: any): Promise<ResponeType> {
+
         let resourcePath = this.path
 
-        if([ 'DELETE' , 'PATCH' , 'ITEM' ].includes(type)) {
+        if (['DELETE', 'PATCH', 'ITEM'].includes(type)) {
             resourcePath += `/${id}`
+        }
+
+
+        let headers: { [key: string]: string } = {
+            'Content-Type': 'application/json'
+        }
+
+        if (this.token !== undefined) {
+            headers['Authorization'] = `Bearer ${this.token}`
         }
 
         const result = await axios({
@@ -29,28 +39,31 @@ export class BaseService<T, Create, Update> {
             url: resourcePath,
             method: type,
             data,
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            headers: headers
         })
-        .then(res => {
-            return {
-                status: res.status,
-                data: res.data
-            }
-        })
-        .catch((err) => {
-            return Promise.reject({
-                status: err.status,
-                errors: err.response.data
+            .then(res => {
+                return {
+                    status: res.status,
+                    data: res.data
+                }
             })
-        })
+            .catch((err) => {
+
+                if (err.response.status === 401) {
+                    localStorage.removeItem('idToken')
+                }
+
+                return Promise.reject({
+                    status: err.status,
+                    errors: err.response.data
+                })
+            })
 
         return Promise.resolve(result)
     }
 
     async create(body: Create): Promise<ResponeType> {
-        return this.request('POST', undefined , body) 
+        return this.request('POST', undefined, body)
     }
 
     async all<T>(): Promise<T[]> {
@@ -58,15 +71,15 @@ export class BaseService<T, Create, Update> {
     }
 
     async get(id: string): Promise<ResponeType> {
-        return this.request('ITEM' , id)
+        return this.request('ITEM', id)
     }
 
-    async update<Update>(id: string, data: Update ): Promise<ResponeType> {
-        return this.request('PATCH' , id , data)
+    async update<Update>(id: string, data: Update): Promise<ResponeType> {
+        return this.request('PATCH', id, data)
     }
 
     async delete(id: string): Promise<ResponeType> {
-        return this.request('DELETE' , id)
+        return this.request('DELETE', id)
     }
 
 }

@@ -1,6 +1,6 @@
 import { BaseService } from '../BaseService';
-export type ResponeType = { status: number, data?: { [key: string]: any } , errors?: { [key: string]: any } }
-import  { User } from './User'
+import { User } from './User';
+export type ResponeType = { status: number, data?: { [key: string]: any }, errors?: { [key: string]: any } }
 
 export interface UserCreate {
     name: string
@@ -13,8 +13,9 @@ export interface UserUpdate {
     surname?: string
 }
 
-export class UserService extends BaseService<User,UserCreate, UserUpdate> {
-    constructor () {
-       super('/user')
+export class UserService extends BaseService<User, UserCreate, UserUpdate> {
+
+    constructor() {
+        super('/user')
     }
 }

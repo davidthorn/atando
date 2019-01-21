@@ -1,11 +1,12 @@
 import React from 'react';
 import { CompanyService } from '../../services/company/CompanyService';
 import { UserService } from '../../services/user/UserService';
-import { CompaniesFeature, CompanyFeature, OrdersFeature, UserFeature, UsersFeature , UserFormFields, CompanyFormFields } from '../index';
+import { CompaniesFeature, CompanyFeature, CompanyFormFields, OrdersFeature, UserFeature, UserFormFields, UsersFeature } from '../index';
 import { AppContainerProps } from "./AppContainerProps";
 import { AppContainerState } from "./AppContainerState";
+import { Router } from './Router';
 
-export class AppContainer extends React.Component<AppContainerProps, AppContainerState> {
+export class AppContainer extends React.Component<AppContainerProps, AppContainerState> implements Router {
 
     constructor(props: AppContainerProps, state: AppContainerState) {
         super(props, state);
@@ -15,10 +16,14 @@ export class AppContainer extends React.Component<AppContainerProps, AppContaine
                 user: {
                     name: 'david',
                     surname: 'thorn',
-                    email: 'david.thorn@atino.de'
+                    email: 'bogus@googlemain.com'
                 }
             }
         };
+    }
+
+    navigate(routeName: string, args: { [key: string]: any }): void {
+        this.props.navigator.navigate(routeName, args)
     }
 
     shouldRender(routeName: string, args: any) {
@@ -30,7 +35,6 @@ export class AppContainer extends React.Component<AppContainerProps, AppContaine
 
     componentDidMount() {
         this.props.navigator.shouldRender = this.shouldRender.bind(this);
-        console.log('comp did mount');
     }
 
     render() {
@@ -38,7 +42,7 @@ export class AppContainer extends React.Component<AppContainerProps, AppContaine
         let com;
         switch (route) {
             case '/users':
-                com = <UsersFeature navigation={this.props.navigator} />;
+                com = <UsersFeature isSuperAdmin={this.props.isSuperAdmin} navigation={this} />;
                 break;
             case '/user':
                 if (this.state.args.user === undefined) throw new Error('incorrect params provided for user feature')
@@ -52,9 +56,9 @@ export class AppContainer extends React.Component<AppContainerProps, AppContaine
                     }}
                     fields={UserFormFields(this.state.args.mode !== 'create')}
                     mode={this.state.args.mode}
-                    navigation={this.props.navigator}
+                    navigation={this}
                     model={this.state.args.user} />;
-                
+
                 break;
             case '/company':
                 if (this.state.args.company === undefined) throw new Error('incorrect params provided for company feature')
@@ -68,11 +72,11 @@ export class AppContainer extends React.Component<AppContainerProps, AppContaine
                     }}
                     fields={CompanyFormFields}
                     mode={this.state.args.mode}
-                    navigation={this.props.navigator}
+                    navigation={this}
                     model={this.state.args.company} />;
                 break;
             case '/companies':
-                com = <CompaniesFeature navigation={this.props.navigator} />;
+                com = <CompaniesFeature navigation={this} />;
                 break;
             case '/orders':
                 com = <OrdersFeature />;
@@ -80,7 +84,6 @@ export class AppContainer extends React.Component<AppContainerProps, AppContaine
             default:
                 throw new Error('route not found');
         }
-        console.log('re render', this.state);
         return com;
     }
 }
